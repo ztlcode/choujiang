@@ -1,0 +1,49 @@
+[
+    {
+        "name": "hetao29/slightphp",
+        "version": "v3.3.4",
+        "version_normalized": "3.3.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hetao29/slightphp.git",
+            "reference": "d8290a2fcb90482d27b332fb0aa5bbd51a6e054d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hetao29/slightphp/zipball/d8290a2fcb90482d27b332fb0aa5bbd51a6e054d",
+            "reference": "d8290a2fcb90482d27b332fb0aa5bbd51a6e054d",
+            "shasum": ""
+        },
+        "time": "2020-03-17T06:48:38+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "SlightPHP.php"
+            ],
+            "psr-4": {
+                "": [
+                    "plugins/"
+                ]
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "hetao",
+                "email": "hetao@hetao.name",
+                "homepage": "https://github.com/hetao29"
+            }
+        ],
+        "description": "SlightPHP PHP FrameWork",
+        "homepage": "https://github.com/hetao29/slightphp",
+        "keywords": [
+            "framework",
+            "php",
+            "slightphp"
+        ]
+    }
+]
