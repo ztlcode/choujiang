@@ -57,7 +57,7 @@ class model_server_prizeLog
         $config = SConfig::getConfig(ROOT_CONFIG.'/openapi.conf', 'choujiang');
         $data = ['userId'=>$userId,'shopId'=>$shopId];
         $unitPrice = $config->unit_price;
-        $number = ceil($price/$unitPrice);
+        $number = 10;//ceil($price/$unitPrice);
         for($i=1; $i<=$number; $i++){
             model_server_prizeLog::add($data);
         }

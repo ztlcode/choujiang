@@ -23,7 +23,7 @@ class openapi_base
         if($this->app === false) return $this->fail('appid错误', 406);
         
         if($this->appHash($request['params'], $this->app->appkey) != $request['apphash']){
-            echo $this->appHash($request['params'], $this->app->appkey);
+            //echo $this->appHash($request['params'], $this->app->appkey);
             return $this->fail('appkey错误', 407);
         }
 

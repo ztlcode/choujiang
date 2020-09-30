@@ -12,7 +12,7 @@ class model_server_weixinpay
         $config = SConfig::getConfig(ROOT_CONFIG.'/weixin.conf', 'choujiang');
         $this->appid  = $config->appid;
         $this->openid = $openid;
-        $this->mch_id = $config->mchId;
+        $this->mch_id = $config->mchid;
         $this->key = $config->md5key;
         $this->out_trade_no = $outTradeId;
         $this->body = $body;
@@ -42,7 +42,7 @@ class model_server_weixinpay
         );
         $params['paySign'] = $this->getSign($params);
 
-        return ['code'=>0,'msg'=>$params];
+        return ['code'=>0,'msg'=>'success','data'=>$params];
     }
 
     private function unifiedorder() {
@@ -61,7 +61,6 @@ class model_server_weixinpay
             'trade_type' => 'JSAPI'                            
         );
         $params['sign'] = $this->getSign($params);
-
         $xmlData =  utility_weixin::arrayToXml($params);
         $return  =  utility_weixin::xmlToArray($this->postXmlCurl($xmlData, $url, 60));
         return $return;
@@ -73,35 +72,35 @@ class model_server_weixinpay
             $params[$k] = $v;
         }
         
-        ksort($Parameters);
+        ksort($params);
         $string = utility_weixin::formatBizQueryParaMap($params, false);
         $string = $string . "&key=" . $this->key;
         $string = md5($string);
         return strtoupper($string); 
     }
 
-    private function postXmlCurl($xml, $url, $second = 30)
+    public static function postXmlCurl($xml,$url,$second=3)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_TIMEOUT, $second);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_POST, TRUE);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 40);
-        set_time_limit(0);
-        $data = curl_exec($ch);
-        if ($data) {
-            curl_close($ch);
-            return $data;
-        } else {
-            $error = curl_errno($ch);
-            curl_close($ch);
-            throw new WxPayException("curl出错，错误码:$error");
-        }
+	    $ch = curl_init();
+	    curl_setopt($ch, CURLOPT_TIMEOUT, $second);
+	    curl_setopt($ch,CURLOPT_URL, $url);
+	    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+	    curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
+	    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	    curl_setopt($ch, CURLOPT_POST, TRUE);
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+	    $data = curl_exec($ch);
+	    curl_close($ch);
+	    if($data){
+		    return $data;
+	    } else {
+		    $error = curl_errno($ch);
+		    echo "curl出错，错误码:$error"."<br>";
+		    echo "<a href='http://curl.haxx.se/libcurl/c/libcurl-errors.html'>错误原因查询</a></br>";
+		    curl_close($ch);
+		    return false;
+	    }
     }
+
 }

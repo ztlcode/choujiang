@@ -28,24 +28,28 @@ class utility_weixin
 
     public static function xmlToArray($xml)
     {
-        libxml_disable_entity_loader(true);
-        $result = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);        
-        return $result;
+
+        $data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+	return $data;
     }
 
-    public static function arrayToXml($arr)
-    {
-        $xml = "<xml>";
-        foreach ($arr as $key => $val) {
-            if (is_array($val)) {
-                $xml .= "<" . $key . ">" . self::arrayToXml($val) . "</" . $key . ">";
-            } else {
-                $xml .= "<" . $key . ">" . $val . "</" . $key . ">";
-            }
-        }
-        $xml .= "</xml>";
-        return $xml;
+    public static function arrayToXml($arr){
+	    $xml = "<xml>";
+	    foreach ($arr as $key=>$val)
+	    {
+		    if (is_numeric($val))
+		    {
+			    $xml.="<".$key.">".$val."</".$key.">";
+
+		    }else{
+			    $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+		    }
+	    }
+	    $xml.="</xml>";
+	    return $xml;
     }
+
+
 
     public static function createNoncestr($length=32)
     {
